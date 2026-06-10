@@ -30,8 +30,9 @@ status: research-log
 | 03 | [03-design-system-case-studies.md](./03-design-system-case-studies.md) | 主要デザインシステムの事例比較 | 文書トップ構造の標準=Foundations/Components/Patterns/Content/Resources、原則は3〜5個 | 64 |
 | 04 | [04-design-principles-and-intent.md](./04-design-principles-and-intent.md) | デザイン原則と「意図」の言語化 | 良い原則=トレードオフ明示の「even over」、4層階層、DDR(デザイン決定記録) | 30+ |
 | 05 | [05-web-platform-constraints.md](./05-web-platform-constraints.md) | Webプラットフォーム固有の制約 | WCAG 2.2、Core Web Vitals閾値、状態定義+ARIA、CSS Cascade Layers、機械検証可能な基準 | 40 |
-| 06 | [06-documentation-and-governance.md](./06-documentation-and-governance.md) | ドキュメンテーションとガバナンス | ガバナンス3類型(Hybridが68%)、貢献モデル、SemVer、ADRのデザイン応用 | 29 |
+| 06 | [06-documentation-and-governance.md](./06-documentation-and-governance.md) | ドキュメンテーションとガバナンス | ガバナンス3類型(Hybrid型が主流)、貢献モデル、SemVer、ADRのデザイン応用 | 29 |
 | 07 | [07-ai-and-design-systems.md](./07-ai-and-design-systems.md) | AI/LLMとデザインシステム(本リポジトリの核心) | DESIGN.md / llms.txt / AGENTS.md / MCP / Code Connect、人間+AI二層ドキュメント | 44 |
+| 08 | [08-counter-evidence-and-design-variability.md](./08-counter-evidence-and-design-variability.md) | 反証調査と設計上のゆらぎ | 統合所見A〜Hは全て条件付き(conditional)・棄却された反証ゼロ。判断材料の変化で結論が反転 | 100+ |
 
 ---
 
@@ -57,6 +58,8 @@ status: research-log
 
 7領域の調査を貫いて見えてきた、本リポジトリの設計に効く**収束テーマ**を整理します。番号は元ログとの対応を示します。
 
+> ⚠️ **以下のA〜Hは反証調査([08](./08-counter-evidence-and-design-variability.md))で全て「条件付き(conditional)」と判定されました**(厳格な証拠基準のもとでも棄却できた反証はゼロ)。各テーマは普遍則ではなく、スケール・成熟度・ブランド要件などの**判断材料が変わると最適解が反転**します。適用条件と反転トリガーは [08](./08-counter-evidence-and-design-variability.md) を参照してください。
+
 ### A. デザインの「真実の源」はトークン、コンポーネントは派生物 〔01・02〕
 成熟したデザインシステムは、デザイントークンをSSOT(Single Source of Truth)の核に置き、コンポーネントをそこからの派生物として扱う潮流にある(トークンファースト)。**参照コンポーネントを提供しない本リポジトリにとって、これは追い風**——「定義すべきはトークンと意味であり、実体ではない」という方針と整合する。
 
@@ -73,7 +76,7 @@ status: research-log
 WCAGのコントラスト比(4.5:1等)、Core Web Vitals(LCP≤2.5s / INP≤200ms / CLS≤0.1)、状態定義+ARIA属性は、**AIやCIが違反を自己検証できる**具体値として定義可能。ただし自動検出が拾えるのはa11y問題の一部(測定法により約30〜57%)に留まる点も明記が必要。
 
 ### F. 「誰が所有するか」は設計の中心問題 〔06〕
-ガバナンスはCentralized/Federated/Hybridの3類型で、高採用システムの**68%がHybrid**。「全員が所有する=誰も所有しない」が繰り返される失敗。リポジトリ名 *WhoOwnsDesign* が問う所有・責務の明文化は、運用可能性に直結する。
+ガバナンスはCentralized/Federated/Hybridの3類型で、複数プロダクト・成熟組織では**Hybrid型が有力**(ただし「68%」等の具体数値は反証調査[08]でTier1の裏付けを欠くと判明、要再検証)。「全員が所有する=誰も所有しない」が繰り返される失敗。リポジトリ名 *WhoOwnsDesign* が問う所有・責務の明文化は**必要条件の一つ**(十分条件ではなく、開発者体験・文化的投資にも同程度依存)。
 
 ### G. AI時代の文書は「人間向け散文 + AI向け構造化データ」の二層 〔07〕
 `DESIGN.md`(YAML+Markdown二層)、`llms.txt`/`AGENTS.md`、Figma/Storybook **MCP**、Code Connect が現れている。Atlassian ADS MCPの実測でAI精度+52%・速度+34%。鍵は **(1)生成前に制約を確立、(2)AIを検証ループに閉じ込める、(3)意味づけ済みトークンと`$description`**。本リポジトリの核心はここに置ける。
